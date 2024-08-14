@@ -1,0 +1,17 @@
+{
+	"remoteUser": "vscode",
+	"containerUser": "vscode",
+	"build": {
+		"args": {
+			"USERNAME": "vscode",
+			"STACK_VERSION": "3.1.1",
+			"HLS_VERSION": "2.7.0.0"
+		},
+		"dockerfile": "Dockerfile"
+	},
+	"customizations": {
+		"vscode": {
+			"extensions": ["haskell.haskell"]
+		}
+	}
+}

@@ -1,0 +1,6 @@
+indentation: 2
+column-limit: 100
+function-arrows: leading
+import-export-style: leading
+let-style: inline
+single-constraint-parens: never
