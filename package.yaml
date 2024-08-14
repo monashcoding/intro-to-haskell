@@ -1,0 +1,60 @@
+name: mac-intro-to-haskell
+version: 0.1.0.0
+license: MIT
+author: Lauren Yim
+copyright: 2023–2024 Lauren Yim
+
+dependencies:
+  - base >= 4.7 && < 5
+  - containers
+
+default-extensions:
+  - ImportQualifiedPost
+
+ghc-options:
+  - -Weverything
+  - -Wno-implicit-prelude
+  - -Wno-missing-deriving-strategies
+  # easier for testing out stuff in stack ghci for this workshop
+  - -Wno-missing-export-lists
+  # types
+  - -Wno-missing-kind-signatures
+  - -Wno-missing-local-signatures
+  - -Wno-monomorphism-restriction
+  # specialisations
+  - -Wno-all-missed-specialisations
+  - -Wno-missed-specialisations
+  # safe mode
+  - -Wno-safe
+  - -Wno-unsafe
+  - -Wno-missing-safe-haskell-mode
+
+library:
+  source-dirs: src
+
+tests:
+  test:
+    main: Test.hs
+    source-dirs: test
+    ghc-options:
+    - -Wno-unused-packages # QuickCheck for doctest
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - QuickCheck
+    - ansi-terminal
+    - directory
+    - doctest
+    - fsnotify
+
+executables:
+  calculator:
+    main: Main.hs
+    source-dirs: app
+    ghc-options:
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - mac-intro-to-haskell
