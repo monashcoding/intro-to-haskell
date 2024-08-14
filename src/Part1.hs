@@ -10,7 +10,8 @@ Multiples a number by 2.
 0
 -}
 double :: Int -> Int
-double x = error "Please implement double"
+double x = x * 2
+-- double = (* 2)
 
 {- | Adds two numbers.
 >>> add 1 2
@@ -19,7 +20,8 @@ double x = error "Please implement double"
 7
 -}
 add :: Int -> Int -> Int
-add x y = error "Please implement add"
+add x y = x + y
+-- add = (+)
 
 {- | Finds the factorial of a number. n! = 1 × 2 × 3 × … × n
 >>> factorial 0
@@ -32,7 +34,8 @@ add x y = error "Please implement add"
 120
 -}
 factorial :: Int -> Int
-factorial n = error "Please implement factorial"
+factorial 0 = 1
+factorial n = n * factorial (n - 1)
 
 {- | Finds the nth fibonacci number. This has been partially done for you and
 you just need to implement the helper auxiliary function.
@@ -57,4 +60,5 @@ nthFibonacciNumber :: Int -> Int
 nthFibonacciNumber = helper 0 1
  where
   helper :: Int -> Int -> Int -> Int
-  helper a b n = error "Please implement the nthFibonacciNumber helper"
+  helper a _ 0 = a
+  helper a b n = helper b (a + b) (n - 1)

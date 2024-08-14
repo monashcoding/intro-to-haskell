@@ -15,7 +15,7 @@ True
 True
 -}
 isDivisibleBy :: Int -> Int -> Bool
-isDivisibleBy x y = error "Please implement isDivisibleBy"
+isDivisibleBy x y = y `mod` x == 0
 
 {- | Gets the multiples of 3 or 5 from 1 up to but not including the first argument.
 >>> multiplesOf3Or5UpTo 15
@@ -28,7 +28,12 @@ isDivisibleBy x y = error "Please implement isDivisibleBy"
 []
 -}
 multiplesOf3Or5UpTo :: Int -> [Int]
-multiplesOf3Or5UpTo n = error "Please implement multiplesOf3Or5UpTo"
+multiplesOf3Or5UpTo n = filter (\x -> isDivisibleBy 3 x || isDivisibleBy 5 x) [1 .. n - 1]
+-- Alternative more advanced solution:
+-- multiplesOf3Or5UpTo n = filter ((||) <$> isDivisibleBy 3 <*> isDivisibleBy 5) [1 .. n - 1]
+-- It's 100% ok to not understand this because this is relatively advanced and I did not mention
+-- any of this in the workshop, but if you are curious, Google 'function applicative instance' and
+-- go down the rabbit hole :)
 
 {- | The solution to the Euler Problem 1: the sum of all the multiples of 3 or 5 below 1000.
 https://projecteuler.net/problem=1
@@ -36,7 +41,9 @@ https://projecteuler.net/problem=1
 233168
 -}
 eulerProblem1 :: Int
-eulerProblem1 = error "Please implement eulerProblem1"
+-- The $ helps us avoid brackets.
+-- eulerProblem1 = sum (multiplesOf3Or5UpTo 1000)
+eulerProblem1 = sum $ multiplesOf3Or5UpTo 1000
 
 -- * Task 2
 
@@ -60,7 +67,8 @@ takeWhile even [5, 6, 2, 4] == []
 4613732
 -}
 eulerProblem2 :: Int
-eulerProblem2 = error "Please implement eulerProblem2"
+-- eulerProblem2 = sum (filter even (takeWhile (<= 4000000) fibs))
+eulerProblem2 = sum $ filter even $ takeWhile (<= 4000000) fibs
 
 -- * Task 3: Bonus
 
@@ -78,7 +86,9 @@ prop> multiplesOfUpTo [3, 5] n == multiplesOf3Or5UpTo n
 []
 -}
 multiplesOfUpTo :: [Int] -> Int -> [Int]
-multiplesOfUpTo xs n = error "Please implement multiplesOfUpTo"
+multiplesOfUpTo xs n = filter (\y -> any (\x -> isDivisibleBy x y) xs) [1.. n - 1]
+-- More advanced solution:
+-- multiplesOfUpTo xs n = filter (or . traverse isDivisibleBy xs) [1 .. n - 1]
 
 {- | Generalised Euler problem 1. generalEulerProblem1 divisors n is the sum of all the numbers
 divisible by at least one of the divisors up to but not including n.
@@ -94,4 +104,4 @@ True
 271066
 -}
 generalEulerProblem1 :: [Int] -> Int -> Int
-generalEulerProblem1 xs n = error "Please implement generalEulerProblem1"
+generalEulerProblem1 xs n = sum $ multiplesOfUpTo xs n

@@ -22,7 +22,8 @@ Just 3.3333333333333335
 Nothing
 -}
 safeDivide :: Double -> Double -> Maybe Double
-safeDivide x y = error "Please implement safeDivide"
+safeDivide _ 0 = Nothing
+safeDivide x y = Just (x / y)
 
 {- | Adds two integers together, returning 'Nothing' if either (or both) of them
 are Nothing.
@@ -36,7 +37,10 @@ Nothing
 Nothing
 -}
 addMaybes :: Maybe Int -> Maybe Int -> Maybe Int
-addMaybes maybeX maybeY = error "Please implement addMaybes"
+addMaybes (Just x) (Just y) = Just (x + y)
+addMaybes _ _ = Nothing
+
+-- addMaybes = liftA2 (+)
 
 -- * Task 2
 
@@ -58,7 +62,11 @@ Nothing
 Nothing
 -}
 findFirstEvenNumber :: [Int] -> Maybe Int
-findFirstEvenNumber xs = error "Please implement findFirstEvenNumber"
+findFirstEvenNumber xs = find even xs
+
+-- Because all functions in Haskell are curried, this could be simplified (the technical term is
+-- eta-reduced) to:
+-- findFirstEvenNumber = find even
 
 {- | Returns a string about the first even number in the list.
 >>> evenNumberMessage [1, 2, 3, 4]
@@ -69,7 +77,12 @@ findFirstEvenNumber xs = error "Please implement findFirstEvenNumber"
 "There are no even numbers"
 -}
 evenNumberMessage :: [Int] -> String
-evenNumberMessage xs = error "Please implement evenNumberMessage"
+evenNumberMessage xs = case findFirstEvenNumber xs of
+  Just x -> "The first even number is " <> show x
+  Nothing -> "There are no even numbers"
+
+-- If you're curious, there's a function called maybe:
+-- evenNumberMessage = maybe "There are no even numbers" (("The first even number is " <>) . show) . findFirstEvenNumber
 
 -- * Task 3
 
@@ -90,7 +103,7 @@ Just 83.6
 Nothing
 -}
 studentGrade :: String -> Maybe Double
-studentGrade student = error "Please implement studentGrade"
+studentGrade student = M.lookup student grades
 
 {- | Calculates the average grade of 2 students, returning 'Nothing' if either
 student's grade cannot be found.
@@ -102,7 +115,16 @@ Nothing
 Nothing
 -}
 averageGrade :: String -> String -> Maybe Double
-averageGrade student1 student2 = error "Please implement averageGrade"
+averageGrade student1 student2 = case studentGrade student1 of
+  Nothing -> Nothing
+  Just grade1 -> case studentGrade student2 of
+    Nothing -> Nothing
+    Just grade2 -> Just ((grade1 + grade2) / 2)
+
+-- Alternatively, using a tuple:
+-- averageGrade2 student1 student2 = case (studentGrade student1, studentGrade student2) of
+--   (Just grade1, Just grade2) -> Just ((grade1 + grade2) / 2)
+--   _ -> Nothing
 
 -- * Task 4
 
@@ -131,4 +153,10 @@ data Expression
 -6.75
 -}
 evaluateExpression :: Expression -> Double
-evaluateExpression expression = error "Please implement evaluateExpression"
+evaluateExpression (Number n) = n
+evaluateExpression (Negate e) = -evaluateExpression e
+evaluateExpression (Add a b) = evaluateExpression a + evaluateExpression b
+evaluateExpression (Subtract a b) = evaluateExpression a - evaluateExpression b
+evaluateExpression (Multiply a b) = evaluateExpression a * evaluateExpression b
+evaluateExpression (Divide a b) = evaluateExpression a / evaluateExpression b
+evaluateExpression (Power a b) = evaluateExpression a ** evaluateExpression b
