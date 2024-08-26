@@ -1,7 +1,6 @@
 #import "@preview/polylux:0.3.1": themes, uncover
 #import "@local/mac-slides:1.0.0": mac-theme, title-slide, slide
 
-#let haskell-purple = rgb("db83ed")
 #let side-by-side(x, y) = grid(columns: (50%, 50%), gutter: 1em, x, y)
 
 #let task(test, extra) = slide(title: [Tasks])[
@@ -36,13 +35,13 @@
 				```
 				- Alternatively, use ```sh ghcup tui``` to install Stack and HLS interactively
 			- Clone #link("https://github.com/monashcoding/intro-to-haskell")[`github.com/monashcoding/intro-to-haskell`]
-			- Run `stack test` (there will be test failures)
+			- Run ```sh stack test``` (there will be test failures)
 		],
 		[
 			=== Using CodeSandbox (online)
 			- Fork #link("https://codesandbox.io/p/devbox/mac-intro-to-haskell-workshop-g3ynvw")[`codesandbox.io/p/devbox/mac-intro-to-haskell-workshop-g3ynvw`]
 				- This is also linked in the GitHub repo
-			- Run `stack test` in a a terminal (there will be test failures)
+			- Run ```sh stack test``` in a a terminal (there will be test failures)
 		],
 	)
 ]
@@ -200,7 +199,7 @@
 		- Python: `function1(arg1, function2(arg2), arg3)`
 		- Haskell: `function1 arg1 (function2 arg2) arg3`
 	- Everything is an expression
-	- Run `stack ghci` to play around in a REPL
+	- Run ```sh stack ghci``` to play around in a REPL
 ]
 #{
 	show raw: set text(0.8em)
